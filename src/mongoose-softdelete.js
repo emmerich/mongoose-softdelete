@@ -16,6 +16,20 @@ module.exports = function(schema) {
     next();
   });
 
+  var filterDeleted = function(next) {
+    if (this._conditions.deleted === undefined) {
+      this.where({
+        deleted: false
+      });
+    }
+
+    next();
+  };
+
+  schema.pre('find', filterDeleted);
+  schema.pre('findOne', filterDeleted);
+  schema.pre('findAll', filterDeleted);
+
   schema.methods.softdelete = function(callback) {
     this.deleted = true;
     this.deletedAt = new Date();
