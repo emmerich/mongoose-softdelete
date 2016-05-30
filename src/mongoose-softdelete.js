@@ -33,12 +33,12 @@ module.exports = function(schema) {
   schema.methods.softdelete = function(callback) {
     this.deleted = true;
     this.deletedAt = new Date();
-    this.save(callback);
+    return this.save(callback);
   };
 
   schema.methods.restore = function(callback) {
     this.deleted = false;
     this.deletedAt = null;
-    this.save(callback);
+    return this.save(callback);
   };
 };
